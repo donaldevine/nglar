@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>nglar</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
+    <script type="text/javascript" src="src/maincontroller.js"></script>
+</head>
+<body>
+    <div id='content' ng-app='nglarApp' ng-controller='MainController'>
+        <label for="searchText">Select Person: </label>
+        <select name="selectedPerson" ng-model="selectedPerson" ng-options="obj.name for obj in people" id="selectedPerson"></select>
+        <br/>
+
+        <label for="searchText">Select Genre (nested): </label>
+        <select name="selectedGenre" id="selectedGenre" ng-model="selectedGenre">
+            <option ng-repeat="m in people[selectedPerson.id].music">{{m}}</option>
+        </select>
+        <br/>
+
+        <hr/>
+        <br/>
+
+        <label for="searchText">Filtered Search: </label>
+        <input type="text" id='searchText' ng-model='searchText'/>
+        <ul>
+            <li ng-repeat="person in people | filter:searchText">{{person.name}}</li>
+        </ul>
+
+        <hr/>
+        <br/>
+        <label>Show Hide Live</label>
+        <input type="checkbox" value="Show live" ng-model="showLive" /><br>
+        <label>Live: </label>
+        <ul>
+            <li ng-repeat="person in people | filter:searchText" ng-show="person.live == showLive">{{person.name}}</li>
+        </ul>
+
+        <hr/>
+        <br/>
+        <label for="newPerson">Add a new Person: </label>
+        <input type="text" ng-model="newPerson" id="newPerson" />
+        <button ng-click="addNew()">Add</button>
+        <hr/>
+        <br/>
+    </div>
+</body>
+</html>
